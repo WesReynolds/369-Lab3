@@ -23,10 +23,12 @@ public class AggOnCountry {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String[] record = value.toString().split(" ");
 			
-			Text country = new Text(record[0]);
-			IntWritable count = new IntWritable(Integer.parseInt(record[1]));
-			
-			context.write(country, count);
+			if (record.length > 1) {
+				Text country = new Text(record[0]);
+				IntWritable count = new IntWritable(Integer.parseInt(record[1]));
+
+				context.write(country, count);
+			}
 		}
 	}
 

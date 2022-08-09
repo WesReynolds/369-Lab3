@@ -10,7 +10,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class SortKeysByASCValue {
+public class SortKeysByDSCValue {
 
     public static final Class OUTPUT_KEY_CLASS = IntWritable.class;
     public static final Class OUTPUT_VALUE_CLASS = Text.class;
@@ -23,7 +23,7 @@ public class SortKeysByASCValue {
 	protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		StringTokenizer itr = new StringTokenizer(value.toString());
 		Text newValue = new Text(itr.nextToken().toString());
-		IntWritable newKey = new IntWritable(Integer.parseInt(itr.nextToken().toString()));
+		IntWritable newKey = new IntWritable(-1 * Integer.parseInt(itr.nextToken().toString()));
 		context.write(newKey, newValue);
         }
     }
@@ -34,6 +34,7 @@ public class SortKeysByASCValue {
         @Override
 	protected void reduce(IntWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {        
             for (Text value : values) {
+		   result.set(key.get() * -1);
               context.write(value, key);
             }
        }

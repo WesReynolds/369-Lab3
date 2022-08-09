@@ -45,9 +45,9 @@ public class HadoopApp {
 	} else if ("Report1".equalsIgnoreCase(otherArgs[0])) {
 
 	    MultipleInputs.addInputPath(job, new Path(otherArgs[1]),
-					KeyValueTextInputFormat.class, Report1.UserMapper.class );
+					TextInputFormat.class, Report1.LogMapper.class );
 	    MultipleInputs.addInputPath(job, new Path(otherArgs[2]),
-					TextInputFormat.class, Report1.MessageMapper.class ); 
+					TextInputFormat.class, Report1.HostnameCountryMapper.class ); 
 
 	    job.setReducerClass(Report1.JoinReducer.class);
 

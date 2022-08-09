@@ -47,7 +47,7 @@ public class Report1 {
 	public static class JoinReducer extends  Reducer<Text, Text, Text, Text> {
 		@Override
 		public void reduce(Text key, Iterable<Text> values, Context context)  throws IOException, InterruptedException {
-			Text country;
+			Text country = new Text();
 			int sum = 0;
 
 			for (Text value : values) {

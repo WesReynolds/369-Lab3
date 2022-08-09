@@ -36,9 +36,9 @@ public class Report1 {
 			String record[] = value.toString().split(",");
 
 			Text ipAdd = new Text(record[0]);
-			Text country = new Text(record[1]);
+			Text out = new Text("B " + record[1]);
 
-			context.write(ipAdd, country);
+			context.write(ipAdd, out);
 		}
 	}
 

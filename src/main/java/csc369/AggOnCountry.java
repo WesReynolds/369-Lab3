@@ -21,6 +21,7 @@ public class AggOnCountry {
 
 		@Override
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+			/*
 			String[] record = value.toString().split(" ");
 			
 			if (record.length > 1) {
@@ -29,6 +30,8 @@ public class AggOnCountry {
 
 				context.write(country, count);
 			}
+			*/
+			context.write(value, one);
 		}
 	}
 

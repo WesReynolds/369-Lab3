@@ -60,7 +60,7 @@ public class Report1 {
 				}
 			}
 				    
-			context.write(country, new Text(String.valueOf(sum));
+			context.write(country, new Text(String.valueOf(sum)));
 		}
 	} 
 }

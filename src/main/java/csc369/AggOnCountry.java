@@ -12,37 +12,38 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class AggOnCountry {
 
-    public static final Class OUTPUT_KEY_CLASS = Text.class;
-    public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
+	public static final Class OUTPUT_KEY_CLASS = Text.class;
+	public static final Class OUTPUT_VALUE_CLASS = IntWritable.class;
 
-    public static class MapperImpl extends Mapper<LongWritable, Text, Text, IntWritable> {
-	private final IntWritable one = new IntWritable(1);
-	private Text word = new Text();
+	public static class MapperImpl extends Mapper<LongWritable, Text, Text, IntWritable> {
+		private final IntWritable one = new IntWritable(1);
+		private Text word = new Text();
 
-        @Override
-	protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            StringTokenizer itr = new StringTokenizer(value.toString());
-            while (itr.hasMoreTokens()) {
-                word.set(itr.nextToken().replaceAll("[\\W]", ""));  // ignore whitespace and punctuation
-                context.write(word, one);
-            }
-        }
-    }
+		@Override
+		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+			String[] record = value.toString().split(" ");
+			
+			Text country = new Text(record[0]);
+			IntWritable count = new IntWritable(Integer.parseInt(record[1]));
+			
+			context.write(country, count);
+		}
+	}
 
-    public static class ReducerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
-	private IntWritable result = new IntWritable();
-    
-        @Override
-	protected void reduce(Text word, Iterable<IntWritable> intOne, Context context) throws IOException, InterruptedException {
-            int sum = 0;
-            Iterator<IntWritable> itr = intOne.iterator();
-        
-            while (itr.hasNext()){
-                sum  += itr.next().get();
-            }
-            result.set(sum);
-            context.write(word, result);
-       }
-    }
+	public static class ReducerImpl extends Reducer<Text, IntWritable, Text, IntWritable> {
+		private IntWritable result = new IntWritable();
 
+		@Override
+		protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+			int sum = 0;
+			
+			for (IntWritable value : values) {
+				sum += value.get();
+			}
+
+			if (sum > 0) {
+				context.write(key, new Text(String.valueOf(sum)));
+			}
+		}
+	}
 }

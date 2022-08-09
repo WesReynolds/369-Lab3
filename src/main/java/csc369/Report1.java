@@ -59,8 +59,10 @@ public class Report1 {
 					country = new Text(tokens[1]);	
 				}
 			}
-				    
-			context.write(country, new Text(String.valueOf(sum)));
+			
+			if (sum > 0) {
+				context.write(country, new Text(String.valueOf(sum)));
+			}
 		}
 	} 
 }

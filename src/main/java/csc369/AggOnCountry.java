@@ -42,7 +42,8 @@ public class AggOnCountry {
 			}
 
 			if (sum > 0) {
-				context.write(key, new Text(String.valueOf(sum)));
+				result.set(sum)
+				context.write(key, result);
 			}
 		}
 	}

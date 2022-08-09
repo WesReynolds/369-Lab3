@@ -55,6 +55,13 @@ public class HadoopApp {
 	    job.setOutputValueClass(Report1.OUTPUT_VALUE_CLASS);
 	    FileOutputFormat.setOutputPath(job, new Path(otherArgs[3]));
 
+	} else if ("AggOnCountry".equalsIgnoreCase(otherArgs[0])) {
+	    job.setReducerClass(AggOnCountry.ReducerImpl.class);
+	    job.setMapperClass(AggOnCountry.MapperImpl.class);
+	    job.setOutputKeyClass(AggOnCountry.OUTPUT_KEY_CLASS);
+	    job.setOutputValueClass(AggOnCountry.OUTPUT_VALUE_CLASS);
+	    FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
+	    FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
 	} else if ("WordCount".equalsIgnoreCase(otherArgs[0])) {
 	    job.setReducerClass(WordCount.ReducerImpl.class);
 	    job.setMapperClass(WordCount.MapperImpl.class);

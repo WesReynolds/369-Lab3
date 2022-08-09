@@ -13,48 +13,54 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class Report1 {
 
-    public static final Class OUTPUT_KEY_CLASS = Text.class;
-    public static final Class OUTPUT_VALUE_CLASS = Text.class;
+	public static final Class OUTPUT_KEY_CLASS = Text.class;
+	public static final Class OUTPUT_VALUE_CLASS = Text.class;
 
-    // Mapper for User file
-    public static class UserMapper extends Mapper<Text, Text, Text, Text> {
-	@Override
-        public void map(Text key, Text value, Context context)  throws IOException, InterruptedException {
-	    String name = value.toString();
-	    String out = "A\t"+name;
-	    context.write(key, new Text(out));
+	// Mapper for access log file
+	public static class LogMapper extends Mapper<LongWritable, Text, Text, Text> {
+		@Override
+		public void map(LongWritable key, Text value, Context context)  throws IOException, InterruptedException {
+			String record[] = value.toString().split(" ");
+
+			Text clientIPAdd = new Text(record[0]);
+			Text out = new Text("A 1");
+
+			context.write(clientIPAdd, out);
+		} 
+	}
+
+	// Mapper for hostname_country file
+	public static class HostnameCountryMapper extends Mapper<LongWritable, Text, Text, Text> {
+		@Override
+		public void map(LongWritable key, Text value, Context context)  throws IOException, InterruptedException {
+			String record[] = value.toString().split(",");
+
+			Text ipAdd = new Text(record[0]);
+			Text country = new Text(record[1]);
+
+			context.write(ipAdd, country);
+		}
+	}
+
+
+	//  Reducer: just one reducer class to perform the "join"
+	public static class JoinReducer extends  Reducer<Text, Text, Text, Text> {
+		@Override
+		public void reduce(Text key, Iterable<Text> values, Context context)  throws IOException, InterruptedException {
+			Text country;
+			int sum = 0;
+
+			for (Text value : values) {
+				String tokens[] = value.toString().split(" ");
+				if (tokens[0].equals("A") {
+					sum += Integer.parseInt(tokens[1]);	
+				}
+			  	else {
+					country = new Text(tokens[1]);	
+				}
+			}
+				    
+			context.write(country, new Text(String.valueOf(sum));
+		}
 	} 
-    }
-
-    // Mapper for messages file
-    public static class MessageMapper extends Mapper<LongWritable, Text, Text, Text> {
-
-	@Override
-        public void map(LongWritable key, Text value, Context context)  throws IOException, InterruptedException {
-	    String text[] = value.toString().split(",");
-	    if (text.length == 2) {
-		String id = text[0];
-		String message = text[1];
-		String out = "B\t"+ message;
-		context.write(new Text(id), new Text(out));
-	    }
-	}
-    }
-
-
-    //  Reducer: just one reducer class to perform the "join"
-    public static class JoinReducer extends  Reducer<Text, Text, Text, Text> {
-
-	@Override
-	    public void reduce(Text key, Iterable<Text> values, Context context)  throws IOException, InterruptedException {
-	    ArrayList<String> name = new ArrayList();
-	    ArrayList<String> messages = new ArrayList();
-
-	    for (Text val : values) {
-		context.write(key, val);
-	    }
-	}
-    } 
-
-
 }

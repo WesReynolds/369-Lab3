@@ -52,7 +52,7 @@ public class Report1 {
 
 			for (Text value : values) {
 				String tokens[] = value.toString().split(" ");
-				if (tokens[0].equals("A") {
+				if (tokens[0].equals("A")) {
 					sum += Integer.parseInt(tokens[1]);	
 				}
 			  	else {

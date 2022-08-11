@@ -48,22 +48,21 @@ public class CountryToURL {
 		@Override
 		public void reduce(Text key, Iterable<Text> values, Context context)  throws IOException, InterruptedException {
 			Text country = new Text();
-			Iterable<Text> tempValues = values;
+			ArrayList<String> urls = new ArrayList<String>();
 
 			for (Text value : tempValues) {
 				String tokens[] = value.toString().split(" ");
-				if (tokens[0].equals("B")) {
+				if (tokens[0].equals("A")) {
+					urls.add(tokens[1]);
+				}
+				else {
 					country = new Text(tokens[1]);
 				}
 			}
 			
-			//context.write(country, new Text("Here"));
 			
-			for (Text value : values) {
-				String tokens[] = value.toString().split(" ");
-				if (tokens[0].equals("A")) {
-					context.write(country, new Text(tokens[1]));	
-				}
+			for (String url : urls) {
+				context.write(country, new Text(url));	
 			}
 		}
 	} 

@@ -23,11 +23,14 @@ public class SortTuples {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			String record[] = value.toString().split(" ");
 			
-			String country = record[0];
-			String url = record[1];
-			int count = Integer.parseInt(record[2]);
+			if (record.length > 1) {
+				String country = record[0];
+				String url = record[1];
+				int count = Integer.parseInt(record[2]);
 						
-			context.write(new CountryCountPair(country, count), new Text(url));			
+				context.write(new CountryCountPair(country, count), new Text(url));
+			}
+
 		}
 	}
 	

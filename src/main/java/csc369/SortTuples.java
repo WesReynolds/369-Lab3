@@ -35,9 +35,9 @@ public class SortTuples {
 	}
 	
 	// controls the reducer to which a particular (key, value) is sent
-	public static class PartitionerImpl extends Partitioner<CountryCountPair, IntWritable> {
+	public static class PartitionerImpl extends Partitioner<CountryCountPair, Text> {
 		@Override
-		public int getPartition(CountryCountPair pair, IntWritable temperature, int numberOfPartitions) {
+		public int getPartition(CountryCountPair pair, Text temperature, int numberOfPartitions) {
 			return Math.abs(pair.getCountry().hashCode() % numberOfPartitions);
 		}
 	}

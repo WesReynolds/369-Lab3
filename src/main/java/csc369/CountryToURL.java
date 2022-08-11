@@ -23,9 +23,9 @@ public class CountryToURL {
 			String record[] = value.toString().split(" ");
 
 			Text clientIPAdd = new Text(record[0]);
-			Text out = new Text("A 1");
+			Text url = new Text("A " + record[6]);
 
-			context.write(clientIPAdd, out);
+			context.write(clientIPAdd, url);
 		} 
 	}
 
@@ -36,9 +36,9 @@ public class CountryToURL {
 			String record[] = value.toString().split(",");
 
 			Text ipAdd = new Text(record[0]);
-			Text out = new Text("B " + record[1]);
+			Text country = new Text("B " + record[1]);
 
-			context.write(ipAdd, out);
+			context.write(ipAdd, country);
 		}
 	}
 
@@ -48,20 +48,19 @@ public class CountryToURL {
 		@Override
 		public void reduce(Text key, Iterable<Text> values, Context context)  throws IOException, InterruptedException {
 			Text country = new Text();
-			int sum = 0;
 
 			for (Text value : values) {
 				String tokens[] = value.toString().split(" ");
-				if (tokens[0].equals("A")) {
-					sum += Integer.parseInt(tokens[1]);	
-				}
-			  	else {
-					country = new Text(tokens[1]);	
+				if (tokens[0].equals("B")) {
+					country = new Text(tokens[1]);
 				}
 			}
 			
-			if (sum > 0) {
-				context.write(country, new Text(String.valueOf(sum)));
+			for (Text value : values) {
+				String tokens[] = value.toString().split(" ");
+				if (tokens[0].equals("A")) {
+					context.write(country, new Text(tokens[1]));	
+				}
 			}
 		}
 	} 

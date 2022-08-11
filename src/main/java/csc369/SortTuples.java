@@ -21,7 +21,7 @@ public class SortTuples {
 	public static class MapperImpl extends Mapper<LongWritable, Text, CountryCountPair, Text> {
 		@Override
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-			String record[] = value.toString().split(" ");
+			String record[] = value.toString().split("\\s");
 			
 			if (record.length > 1) {
 				String country = record[0];
@@ -31,7 +31,7 @@ public class SortTuples {
 				context.write(new CountryCountPair(country, count), new Text(url));
 			}
 			
-			context.write(new CountryCountPair("Brazil", 7), value);
+			//context.write(new CountryCountPair("Brazil", 7), value);
 
 		}
 	}

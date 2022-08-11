@@ -47,11 +47,11 @@ public class SortTuples {
 	public static class ReducerImpl extends Reducer<CountryCountPair, Text, Text, IntWritable> {
 		@Override
 		protected void reduce(CountryCountPair key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-			String country = key.getCountry();
-			int count = key.getCount();
+			Text country = key.getCountry();
+			IntWritable count = key.getCount();
 			
 			for (Text value : values) {
-				context.write(new Text(country + " " + value), new IntWritable(count));
+				context.write(new Text(country.toString() + " " + value), count);
 			}
 		}
 	}

@@ -36,7 +36,7 @@ public class CountryCountPair
         if (country.compareTo(pair.getCountry()) == 0) {
             return count.compareTo(pair.count);
         }
-        return country.compareTo(pair.getCountry());
+        return -1 * country.compareTo(pair.getCountry());
     }
     
     public Text getCountry() {

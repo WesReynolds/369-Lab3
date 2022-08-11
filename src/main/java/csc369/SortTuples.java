@@ -57,6 +57,8 @@ public class SortTuples {
 			for (Text value : values) {
 				context.write(new Text(country.toString() + " " + value), count);
 			}
+			
+			context.write(new Text("Reduced"), new IntWritable(1));
 		}
 	}
 }

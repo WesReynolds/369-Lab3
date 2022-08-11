@@ -34,9 +34,9 @@ public class CountryCountPair
     @Override
     public int compareTo(CountryCountPair pair) {
         if (country.compareTo(pair.getCountry()) == 0) {
-            return count.compareTo(pair.count);
+            return -1 * count.compareTo(pair.count);
         }
-        return -1 * country.compareTo(pair.getCountry());
+        return country.compareTo(pair.getCountry());
     }
     
     public Text getCountry() {

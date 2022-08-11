@@ -30,6 +30,8 @@ public class SortTuples {
 						
 				context.write(new CountryCountPair(country, count), new Text(url));
 			}
+			
+			context.write(new CountrCountPair("Brazil", 7), new Text("google.com"));
 
 		}
 	}

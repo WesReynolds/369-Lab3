@@ -90,7 +90,11 @@ public class HadoopApp {
 	} else if ("SortTuples".equalsIgnoreCase(otherArgs[0])) {
 	    job.setReducerClass(SortTuples.ReducerImpl.class);
 	    job.setMapperClass(SortTuples.MapperImpl.class);
+		
+	    job.setPartitionerClass(SortTuples.PartitionerImpl.class);
+            job.setGroupingComparatorClass(SortTuples.GroupingComparator.class);
 	    job.setSortComparatorClass(SortTuples.SortComparator.class);
+		
 	    job.setOutputKeyClass(SortTuples.OUTPUT_KEY_CLASS);
 	    job.setOutputValueClass(SortTuples.OUTPUT_VALUE_CLASS);
 	    

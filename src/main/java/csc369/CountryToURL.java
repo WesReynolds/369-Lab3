@@ -56,6 +56,8 @@ public class CountryToURL {
 				}
 			}
 			
+			context.write(country, new Text("Here"));
+			
 			for (Text value : values) {
 				String tokens[] = value.toString().split(" ");
 				if (tokens[0].equals("A")) {

@@ -21,17 +21,7 @@ public class CountTuples {
 
 		@Override
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-			
-			String[] record = value.toString().split("\\s");
-			
-			if (record.length > 1) {
-				Text country = new Text(record[0]);
-				IntWritable count = new IntWritable(Integer.parseInt(record[1]));
-
-				context.write(country, count);
-			}
-			
-			//context.write(value, one);
+			context.write(value, one);			
 		}
 	}
 

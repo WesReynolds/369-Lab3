@@ -30,9 +30,6 @@ public class SortTuples {
 						
 				context.write(new CountryCountPair(country, count), new Text(url));
 			}
-			
-			//context.write(new CountryCountPair("Brazil", 7), value);
-
 		}
 	}
 	
@@ -81,8 +78,6 @@ public class SortTuples {
 			for (Text value : values) {
 				context.write(new Text(country.toString() + " " + value), count);
 			}
-			
-			context.write(new Text("Reduced"), new IntWritable(1));
 		}
 	}
 }

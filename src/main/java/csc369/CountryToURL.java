@@ -50,7 +50,7 @@ public class CountryToURL {
 			Text country = new Text();
 			ArrayList<String> urls = new ArrayList<String>();
 
-			for (Text value : tempValues) {
+			for (Text value : values) {
 				String tokens[] = value.toString().split(" ");
 				if (tokens[0].equals("A")) {
 					urls.add(tokens[1]);

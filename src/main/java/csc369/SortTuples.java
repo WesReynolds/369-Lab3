@@ -34,6 +34,28 @@ public class SortTuples {
 		}
 	}
 	
+	// controls the reducer to which a particular (key, value) is sent
+	public static class PartitionerImpl extends Partitioner<CountryCountPair, IntWritable> {
+		@Override
+		public int getPartition(CountryCountPair pair, IntWritable temperature, int numberOfPartitions) {
+			return Math.abs(pair.getCountry().hashCode() % numberOfPartitions);
+		}
+	}
+	
+	// used to group data by (country, count)
+	public static class GroupingComparator extends WritableComparator {
+		public GroupingComparator() {
+			super(CountryCountPair.class, true);
+		}
+
+		@Override
+		public int compare(WritableComparable wc1, WritableComparable wc2) {
+			CountryCountPair pair = (CountryCountPair) wc1;
+			CountryCountPair pair2 = (CountryCountPair) wc2;
+			return pair.getCountry().compareTo(pair2.getCountry());
+		}
+	}
+	
 	// used to perform secondary sort on temperature
 	public static class SortComparator extends WritableComparator {
 		protected SortComparator() {

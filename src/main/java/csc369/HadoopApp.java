@@ -87,6 +87,15 @@ public class HadoopApp {
 	    job.setOutputValueClass(CountTuples.OUTPUT_VALUE_CLASS);
 	    FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
 	    FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
+	} else if ("SortTuples".equalsIgnoreCase(otherArgs[0])) {
+	    job.setReducerClass(SortTuples.ReducerImpl.class);
+	    job.setMapperClass(SortTuples.MapperImpl.class);
+		job.setComparatorClass(SortTuples.SortComparator.class);
+	    job.setOutputKeyClass(SortTuples.OUTPUT_KEY_CLASS);
+	    job.setOutputValueClass(SortTuples.OUTPUT_VALUE_CLASS);
+	    
+	    FileInputFormat.addInputPath(job, new Path(otherArgs[1]));
+	    FileOutputFormat.setOutputPath(job, new Path(otherArgs[2]));
 	} else if ("WordCount".equalsIgnoreCase(otherArgs[0])) {
 	    job.setReducerClass(WordCount.ReducerImpl.class);
 	    job.setMapperClass(WordCount.MapperImpl.class);

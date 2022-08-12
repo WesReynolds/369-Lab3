@@ -1,0 +1,66 @@
+Wesley Reynolds
+------------------------------------------------------------------------------------------------
+Report 1:
+./gradlew run --args="Report1 input/access.log input/hostname_country.csv out_report1_temp1/"
+./gradlew run --args="AggOnCountry out_report1_temp1/ out_report1_temp2/"
+./gradlew run --args="SortKeysByDSCValue out_report1_temp2/ out_report1/"
+
+Report1:
+./gradlew run --args="Report1 input/access.log input/hostname_country.csv out_report1_temp1/"
+cat out_report01_temp1/part-r*
+USA	40
+USA	39
+Belgium	39
+Egypt	39
+Belgium	39
+
+AggOnCountry:
+./gradlew run --args="AggOnCountry out_report1_temp1/ out_report1_temp2/"
+cat out_report1_temp2/part-r*
+Belgium	1444
+Egypt	1407
+Mexico	1485
+Netherlands	1405
+Senegal	1407
+
+SortKeysByDSCValue:
+./gradlew run --args="SortKeysByDSCValue out_report1_temp2/ out_report1/"
+cat out_report1/part-r*
+Mexico	-1485
+USA	-1447
+Belgium	-1444
+Senegal	-1407
+Egypt	-1407
+------------------------------------------------------------------------------------------------
+Report 2:
+./gradlew run --args="CountryToURL input/access.log input/hostname_country.csv out_report2_temp1/
+./gradlew run --args="CountTuples out_report2_temp1/ out_report2_temp2/"
+./gradlew run --args="SortTuples out_report2_temp2/ out_report2/"
+
+CountryToURL:
+./gradlew run --args="CountryToURL input/access.log input/hostname_country.csv out_report2_temp1/
+cat out_report2_temp1/part-r*
+Belgium	/sample/page_62
+Belgium	/sample/page_78
+Egypt	/sample/page_38
+Egypt	/sample/page_23
+Egypt	/sample/page_75
+
+CountTuples:
+./gradlew run --args="CountTuples out_report2_temp1/ out_report2_temp2/"
+cat out_report2_temp2/part-r*
+Belgium	/sample/page_8	18
+Belgium	/sample/page_9	18
+Egypt	/sample/page_0	19
+Egypt	/sample/page_1	17
+Egypt	/sample/page_10	17
+
+SortTuples:
+./gradlew run --args="SortTuples out_report2_temp2/ out_report2/"
+cat out_report2/part-r*
+Belgium /sample/page_71	17
+Belgium /sample/page_0	16
+Egypt /sample/page_34	20
+Egypt /sample/page_0	19
+Egypt /sample/page_70	19
+------------------------------------------------------------------------------------------------
